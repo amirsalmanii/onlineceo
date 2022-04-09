@@ -1,7 +1,12 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import (
+    ListAPIView,
+    ListCreateAPIView,
+    RetrieveUpdateDestroyAPIView
+)
 from rest_framework.authtoken.models import Token
+from kavenegar import *
 from .models import User
 from . import serializers
 from config import secret
@@ -9,6 +14,11 @@ from otp.models import UserOtp
 
 
 class UserVerifyOtp(APIView):
+    """
+    By receiving the mobile number and checking it in Serlizer (this user is exist or not and ...),
+    we store the phonenumber in userotp model and send password to the user and check
+    it in the bottom view the password entered is correct or not.
+    """
     def post(self, request):
         serializer = serializers.OtpVerifySerializer(data=request.data)
         if serializer.is_valid():
@@ -19,7 +29,7 @@ class UserVerifyOtp(APIView):
                 msg = str(otp_obj.password)
                 params = {
                     'receptor': otp_obj.phone_number,
-                    'template': 'verifyvetnow',
+                    'template': 'sendotponlineceo',
                     'token': msg,
                     'type': 'sms',
                 }   
@@ -33,7 +43,11 @@ class UserVerifyOtp(APIView):
         return Response(serializer.errors, status=404)
 
 
-class UserConfirmOtp(APIView): 
+class UserConfirmOtp(APIView):
+    """
+    check passwored entered is correct with model userotp or not if true:
+    we send token to frontend if not we send 404
+    """
     def post(self, request):
         serializer = serializers.OtpConfirmSerializer(data=request.data)
         if serializer.is_valid():
