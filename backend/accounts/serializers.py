@@ -1,5 +1,8 @@
 from rest_framework import serializers
+from datetime import timedelta
+from django.utils import timezone
 from . import models
+from otp.models import UserOtp
 
 
 class OtpVerifySerializer(serializers.Serializer):
@@ -9,7 +12,7 @@ class OtpVerifySerializer(serializers.Serializer):
         """
         check we have this number in system.
         """
-        is_exists = User.objects.filter(username=value).exists()
+        is_exists = models.User.objects.filter(username=value).exists()
         if is_exists:
             return value
         else:
