@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     'otp',
     'categories',
     'products',
+    'threed',
     # third party
     'rest_framework',
     'rest_framework.authtoken',
