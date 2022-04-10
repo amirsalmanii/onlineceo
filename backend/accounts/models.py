@@ -28,6 +28,7 @@ class User(AbstractBaseUser):
     objects = MyUserManager()
 
     is_admin = models.BooleanField(default=False)
+    is_operator = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
