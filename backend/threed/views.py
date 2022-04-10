@@ -1,3 +1,14 @@
-from django.shortcuts import render
+from rest_framework.generics import (
+    RetrieveUpdateAPIView
+)
+from .models import ThreeD
+from . import serializers
 
-# Create your views here.
+
+class DetailUpdateThreeDView(RetrieveUpdateAPIView):
+    """
+    request get ==> detail threed
+    request put ==> update fields
+    """
+    queryset = ThreeD.objects.all()
+    serializer_class = serializers.ThreeDSerializer
