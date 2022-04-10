@@ -23,9 +23,11 @@ INSTALLED_APPS = [
     'accounts',
     'otp',
     'categories',
+    'products',
     # third party
     'rest_framework',
     'rest_framework.authtoken',
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [
