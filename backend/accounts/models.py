@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.urls import reverse
-from django.utils.html import format_html
 from .managers import MyUserManager
 
 
