@@ -1,3 +1,5 @@
+from django.core.mail import send_mail
+from django.conf import settings
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.generics import (
@@ -10,7 +12,7 @@ from kavenegar import *
 from .models import User
 from . import serializers
 from config import secret
-from otp.models import UserOtp
+from otp.models import UserOtp, UserEmailOtp
 
 
 class UserVerifyOtp(APIView):
@@ -59,6 +61,46 @@ class UserConfirmOtp(APIView):
                 admin=False
             token = Token.objects.filter(user=user)
             otps = UserOtp.objects.filter(phone_number=user).delete()
+            if token:
+                token = token.first()
+            else:
+                token = Token.objects.create(user=user)
+            return Response({"token": token.key, 'admin': admin}, status=200)
+        else:
+            return Response(serializer.errors, status=404)
+
+
+class UserVerifyOtpEmail(APIView):
+    """
+    like UserVerifyOtp but use email
+    """
+    def post(self, request):
+        serializer = serializers.OtpEmailVerifySerializer(data=request.data)
+        if serializer.is_valid():
+            data = serializer.validated_data
+            otp_obj = UserEmailOtp.objects.save_data_email_otp(data)
+            msg = f'{otp_obj.password} کد را در سامانه وارد کنید'
+            client_email = otp_obj.email
+            send_mail('vetnow auth', msg, settings.DEFAULT_FROM_EMAIL, [client_email])
+            return Response({"key": otp_obj.key}, status=200)
+        return Response(serializer.errors, status=400)
+
+
+class UserConfirmOtpEmail(APIView):
+    """
+    like UserConfirmOtp but use email
+    """
+    def post(self, request):
+        serializer = serializers.OtpEmailConfirmSerializer(data=request.data)
+        if serializer.is_valid():
+            data = serializer.validated_data
+            user = User.objects.get(email=data['email'])
+            if user.is_admin:
+                admin=True
+            else:
+                admin=False
+            token = Token.objects.filter(user=user)
+            otps = UserEmailOtp.objects.filter(email=user.email).delete()
             if token:
                 token = token.first()
             else:
