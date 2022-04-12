@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'products',
     'threed',
     'discount',
+    'mark',
     # third party
     'rest_framework',
     'rest_framework.authtoken',
