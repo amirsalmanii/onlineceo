@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'django_cleanup.apps.CleanupConfig',
+    'django_crontab',
 ]
 
 MIDDLEWARE = [
@@ -136,3 +137,7 @@ EMAIL_HOST_USER = secret.or_email
 EMAIL_HOST_PASSWORD = secret.or_email_p
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True 
+
+CRONJOBS = [
+    ('1 0 * * *', 'discount.cron.my_scheduled_job')
+]
