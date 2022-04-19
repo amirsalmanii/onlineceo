@@ -13,6 +13,7 @@ class UserAdmin(BaseUserAdmin):
         "first_name",
         "last_name",
         "is_admin",
+        "is_operator",
     )
     list_filter = ("is_admin",)
     search_fields = ("email", "username")
