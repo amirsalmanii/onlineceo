@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'discount',
     'mark',
     'order',
+    'accounting',
     # third party
     'rest_framework',
     'rest_framework.authtoken',
