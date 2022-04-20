@@ -23,5 +23,12 @@ class RestriveOrdersView(APIView):
         serializer_order = serializers.OrderSerializerM1(order)
         serializer_order_items = serializers.OrderItemsSerializerM1(order_items, context={'request': request})
         return Response({'data_1':serializer_order.data, 'data_2': serializer_order_items.data}, status=200)
-
+    
+    def put(self, request, order_id):
+        order = Order.objects.get(order_id=order_id)
+        serializer = serializers.OrderSerializerM2(instance=order, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=200)
+        return Response(serializer.errors, status=400)
 
