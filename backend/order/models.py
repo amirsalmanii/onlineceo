@@ -38,12 +38,14 @@ class OrderItems(models.Model):
     product_price = models.PositiveBigIntegerField() # frontend send
     product_company_price = models.BigIntegerField(default=0)
     total_product_company_price = models.PositiveBigIntegerField(null=True, blank=True)
+    total_amount = models.PositiveBigIntegerField(null=True, blank=True)
     quantity = models.PositiveIntegerField(default=0) # frontend send
     order_id = models.UUIDField(null=True, blank=True) # frontend send
 
     def save(self, *args, **kwargs):
         self.product_company_price = self.product.company_price
         self.total_product_company_price = self.product.company_price * self.quantity
+        self.total_amount = self.product_price * self.quantity
         super(OrderItems, self).save(*args, **kwargs)
 
 
