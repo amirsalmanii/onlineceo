@@ -171,7 +171,7 @@ class ComputeGain(APIView):
             result = total_f - total_c
         except:
             result = 0
-        return Response({"gains": result}, status=200)
+        return Response({"gains": result, "total_sells_per_month": total_f}, status=200)
 
 
 class ComputeGainWithTime(APIView):
