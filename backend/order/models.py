@@ -39,6 +39,7 @@ class OrderItems(models.Model):
     product_company_price = models.BigIntegerField(default=0)
     total_product_company_price = models.PositiveBigIntegerField(null=True, blank=True)
     total_amount = models.PositiveBigIntegerField(null=True, blank=True)
+    created = models.DateField(auto_now_add=True)
     quantity = models.PositiveIntegerField(default=0) # frontend send
     order_id = models.UUIDField(null=True, blank=True) # frontend send
 
