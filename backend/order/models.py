@@ -1,7 +1,7 @@
 from uuid import uuid4
 from datetime import date
 from django.db import models
-from django.db.models.signals import pre_save, post_save
+from django.db.models.signals import pre_save, post_save, m2m_changed
 from django.dispatch import receiver
 from products.models import Product
 from accounts.models import User
@@ -13,6 +13,7 @@ class Order(models.Model):
         ("r", "refund")
     )
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    products = models.ManyToManyField(Product, related_name='order')
     payment_status = models.CharField(choices=PAYMENT_STATUS, max_length=20)
     total_price = models.BigIntegerField(null=True, blank=True)
     confirmation = models.BooleanField(default=False)
@@ -89,3 +90,16 @@ def set_refund(sender, instance, *args, **kwargs):
             order.save()
     else:
         pass
+
+
+# siginal for order to create orderItems
+@receiver(m2m_changed, sender=Order.products.through)
+def create_order_item(sender, instance, action, *args, **kwargs):
+    if 'post' in action:
+        products = instance.products.all()
+        for product in products:
+            if product.price_after_discount > 0:
+                amount = product.price_after_discount
+            else:
+                amount = product.price
+            OrderItems.objects.create(product=product, product_price=amount, order_id=instance.order_id)
