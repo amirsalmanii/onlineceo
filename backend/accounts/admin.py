@@ -40,7 +40,7 @@ class UserAdmin(BaseUserAdmin):
             },
         ),
         ("Personal Info", {"fields": ("is_active",)}),
-        ("Personal Perms", {"fields": ("is_admin",)}),
+        ("Personal Perms", {"fields": ("is_admin", "is_operator")}),
     )
 
     add_fieldsets = ((None, {"fields": ("username", "password1", "password2")}),)
