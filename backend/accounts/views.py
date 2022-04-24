@@ -2,6 +2,8 @@ from django.core.mail import send_mail
 from django.conf import settings
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.pagination import PageNumberPagination
+from rest_framework import filters
 from rest_framework.generics import (
     ListAPIView,
     ListCreateAPIView,
@@ -13,6 +15,10 @@ from .models import User
 from . import serializers
 from config import secret
 from otp.models import UserOtp, UserEmailOtp
+
+
+class MyPagination(PageNumberPagination):
+    page_size = 2
 
 
 class UserVerifyOtp(APIView):
@@ -117,6 +123,9 @@ class UserListAndCreateView(ListCreateAPIView):
     """
     queryset = User.objects.all()
     serializer_class = serializers.UserSerializer
+    pagination_class = MyPagination
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['username', 'first_name', 'last_name']
 
 
 class UserDetailAndUpdateANdDelete(RetrieveUpdateDestroyAPIView):

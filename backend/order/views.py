@@ -3,11 +3,13 @@ from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveUpdateAP
 from rest_framework.response import Response
 from .models import Order, OrderItems
 from . import serializers
+from accounts.views import MyPagination
 
 
 class ListOrdersView(ListAPIView):
     queryset = Order.objects.all()
     serializer_class = serializers.OrderSerializerM1
+    pagination_class = MyPagination
 
 
 class CreateOrdersView(CreateAPIView):

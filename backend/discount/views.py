@@ -9,14 +9,13 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Discount
 from . import serializers
-# from product.views import MyPagination
-# YYYY-MM-DD
+from accounts.views import MyPagination
 
 
 class DiscountListView(ListAPIView):
     queryset = Discount.objects.all()
     serializer_class = serializers.DiscountListSerializer
-    # pagination_class = MyPagination
+    pagination_class = MyPagination
 
 
 class DiscountCreateView(APIView):

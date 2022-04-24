@@ -8,6 +8,7 @@ from . import (
     models,
     serializers
 )
+from accounts.views import MyPagination
 
 
 class ListCategories(ListAPIView):
@@ -20,6 +21,16 @@ class ListCategories(ListAPIView):
 
 
 class ListCategories2(ListAPIView):
+    """
+    gives all categories
+    good for admin panel
+    """
+    queryset = models.Category.objects.all()
+    serializer_class = serializers.CategoriesSerializer
+    pagination_class = MyPagination
+
+
+class ListCategories2WithoutPagination(ListAPIView):
     """
     gives all categories
     good for admin panel

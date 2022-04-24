@@ -10,11 +10,13 @@ from rest_framework.response import Response
 from categories.models import Category
 from .models import Product
 from . import serializers
+from accounts.views import MyPagination
 
 
 class ListProducts(ListAPIView):
     queryset = Product.objects.filter(hide=False)
     serializer_class = serializers.ProductsSerializerm1
+    pagination_class = MyPagination
 
 
 class ListProductsByCategory(APIView):
