@@ -1,5 +1,6 @@
 from django.core.mail import send_mail
 from django.conf import settings
+from django.db.models import Q
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
@@ -136,3 +137,8 @@ class UserDetailAndUpdateANdDelete(RetrieveUpdateDestroyAPIView):
     """
     queryset = User.objects.all()
     serializer_class = serializers.UserSerializer
+
+
+class UserListAdminOrOprator(ListAPIView):
+    queryset = User.objects.filter(Q(is_admin=True) | Q(is_operator=True))
+    serializer_class = serializers.UserSerializer2

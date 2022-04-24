@@ -95,3 +95,9 @@ class UserSerializer(serializers.ModelSerializer):
         exclude = ('password', 'last_login')
 
 
+class UserSerializer2(serializers.ModelSerializer):
+    class Meta:
+        model = models.User
+        fields = ('id', 'first_name', 'last_name')
+
+
