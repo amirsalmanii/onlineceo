@@ -8,4 +8,5 @@ urlpatterns = [
     path('otp/email/confirm/', views.UserConfirmOtpEmail.as_view(), name='confirm_after_verify'),
     path('user/', views.UserListAndCreateView.as_view(), name='user_list_or_create'),
     path('user/<int:pk>/', views.UserDetailAndUpdateANdDelete.as_view(), name='user_read_update_delete'),
+    path('user/ad-op/', views.UserListAdminOrOprator.as_view(), name='admin_or_op users'),
 ]
