@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django_cleanup.apps.CleanupConfig',
     'django_crontab',
     'corsheaders',
+    "debug_toolbar",
 ]
 
 MIDDLEWARE = [
@@ -46,6 +47,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -147,4 +149,10 @@ EMAIL_USE_TLS = True
 
 CRONJOBS = [
     ('1 0 * * *', 'discount.cron.my_scheduled_job')
+]
+
+INTERNAL_IPS = [
+    # ...
+    "127.0.0.1",
+    # ...
 ]

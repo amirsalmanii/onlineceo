@@ -14,3 +14,7 @@ urlpatterns = [
     path('api/v1/', include('order.urls')),
     path('api/v1/', include('accounting.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+if settings.DEBUG:
+    urlpatterns += path('__debug__/', include('debug_toolbar.urls')),
