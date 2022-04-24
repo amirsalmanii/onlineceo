@@ -1,13 +1,13 @@
 import datetime
+import jdatetime
+from datetime import date
+from django.db.models import Sum
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from products.models import Product
 from categories.models import Category
 from order.models import Order, OrderItems
-from django.db.models import Sum
 from .serializers import DateSerilizer
-import jdatetime
-from datetime import date
 
 
 class ComputeSellsPerMonthAutoView(APIView):
