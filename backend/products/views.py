@@ -7,6 +7,7 @@ from rest_framework.generics import (
 )
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import filters
 from categories.models import Category
 from .models import Product
 from . import serializers
@@ -17,6 +18,8 @@ class ListProducts(ListAPIView):
     queryset = Product.objects.filter(hide=False)
     serializer_class = serializers.ProductsSerializerm1
     pagination_class = MyPagination
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name', 'body', 'manufacturer_company', 'categories__name']
 
 
 class ListProductsByCategory(APIView):
