@@ -11,6 +11,8 @@ class ListOrdersView(ListAPIView):
     queryset = Order.objects.all()
     serializer_class = serializers.OrderSerializerM1
     pagination_class = MyPagination
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['order_id', 'owner__first_name', 'owner__last_name', 'owner__username']
 
 
 class CreateOrdersView(CreateAPIView):
@@ -40,6 +42,8 @@ class RefundsOrdersRequestView(ListAPIView):
     queryset = RefundOrdersRequest.objects.all()
     serializer_class = serializers.OrderRefundsSerializer
     pagination_class = MyPagination
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['user__first_name', 'user__last_name', 'user__username', 'order_id']
 
 
 class RefundOrderRequestDetailView(RetrieveAPIView):
