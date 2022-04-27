@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.views import  APIView
 from rest_framework.response import Response
+from rest_framework import filters
 from rest_framework.generics import (
     ListAPIView
 )
@@ -28,6 +29,8 @@ class ListCategories2(ListAPIView):
     queryset = models.Category.objects.all()
     serializer_class = serializers.CategoriesSerializer
     pagination_class = MyPagination
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name']
 
 
 class ListCategories2WithoutPagination(ListAPIView):
