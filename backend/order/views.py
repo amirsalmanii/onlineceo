@@ -1,7 +1,8 @@
 from rest_framework.views import APIView
-from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveUpdateAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveUpdateAPIView, RetrieveAPIView, UpdateAPIView
 from rest_framework.response import Response
-from .models import Order, OrderItems
+from rest_framework import filters
+from .models import Order, OrderItems, RefundOrdersRequest
 from . import serializers
 from accounts.views import MyPagination
 
@@ -34,3 +35,18 @@ class RestriveOrdersView(APIView):
             return Response(status=200)
         return Response(serializer.errors, status=400)
 
+
+class RefundsOrdersRequestView(ListAPIView):
+    queryset = RefundOrdersRequest.objects.all()
+    serializer_class = serializers.OrderRefundsSerializer
+    pagination_class = MyPagination
+
+
+class RefundOrderRequestDetailView(RetrieveAPIView):
+    queryset = RefundOrdersRequest.objects.all()
+    serializer_class = serializers.OrderRefundsSerializer
+
+
+class RefundOrderRequestUpdateView(UpdateAPIView):
+    queryset = RefundOrdersRequest.objects.all()
+    serializer_class = serializers.OrderRefundUpdateSerializer
