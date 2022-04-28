@@ -22,12 +22,13 @@ class ListProducts(ListAPIView):
     search_fields = ['name', 'body', 'manufacturer_company', 'categories__name']
 
 
-class ListProductsByCategory(APIView):
-    def get(self, request, slug):
+class ListProductsByCategory(ListAPIView):
+    serializer_class = serializers.ProductsSerializerm1
+    def get_queryset(self):
+        slug = self.kwargs['slug']
         category_obj = get_object_or_404(Category, slug=slug)
-        queryset = Product.objects.filter(categories=category_obj)
-        serializer = serializers.ProductsSerializerm1(queryset, many=True)
-        return Response(serializer.data, status=200)
+        products = Product.objects.filter(categories=category_obj)
+        return products
 
 
 class CreateProduct(CreateAPIView):
