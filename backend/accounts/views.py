@@ -142,3 +142,25 @@ class UserDetailAndUpdateANdDelete(RetrieveUpdateDestroyAPIView):
 class UserListAdminOrOprator(ListAPIView):
     queryset = User.objects.filter(Q(is_admin=True) | Q(is_operator=True))
     serializer_class = serializers.UserSerializer2
+
+
+class UserProfile(APIView):
+    def get(self, request):
+        user = request.user
+        serializer = serializers.UserSerializer(user)
+        return Response(serializer.data, status=200)
+    
+    def put(self, request):
+        user = request.user
+        serializer = serializers.UserSerializer3(instance=user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=200)
+        return Response(serializer.errors, status=400)
+
+
+class ShowUserWallet(APIView):
+    def get(self, request):
+        user = request.user
+        user_wallet = user.wallet
+        return Response(user_wallet, status=200)

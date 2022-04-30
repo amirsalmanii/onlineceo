@@ -9,4 +9,6 @@ urlpatterns = [
     path('user/', views.UserListAndCreateView.as_view(), name='user_list_or_create'),
     path('user/<int:pk>/', views.UserDetailAndUpdateANdDelete.as_view(), name='user_read_update_delete'),
     path('user/ad-op/', views.UserListAdminOrOprator.as_view(), name='admin_or_op users'),
+    path('user/profile/', views.UserProfile.as_view(), name='user_profile'),
+    path('wallet/', views.ShowUserWallet.as_view(), name='user_wallet'),
 ]

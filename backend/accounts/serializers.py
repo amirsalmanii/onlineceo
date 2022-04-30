@@ -101,3 +101,8 @@ class UserSerializer2(serializers.ModelSerializer):
         fields = ('id', 'first_name', 'last_name')
 
 
+class UserSerializer3(serializers.ModelSerializer):
+    class Meta:
+        model = models.User
+        exclude = ('id', 'username', 'is_admin', 'is_active', 'is_operator', 'password')
+
