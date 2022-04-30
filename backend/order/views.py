@@ -54,3 +54,11 @@ class RefundOrderRequestDetailView(RetrieveAPIView):
 class RefundOrderRequestUpdateView(UpdateAPIView):
     queryset = RefundOrdersRequest.objects.all()
     serializer_class = serializers.OrderRefundUpdateSerializer
+
+
+class UserOrders(ListAPIView):
+    serializer_class = serializers.OrderSerializerM1
+    def get_queryset(self):
+        user = self.request.user
+        q = Order.objects.filter(owner=user)
+        return q
