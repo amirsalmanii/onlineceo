@@ -37,3 +37,9 @@ class OrderRefundUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = RefundOrdersRequest
         fields = '__all__'
+
+
+class OrderRefundUpdateSerializer2(serializers.ModelSerializer):
+    class Meta:
+        model = RefundOrdersRequest
+        exclude = ('user',)
