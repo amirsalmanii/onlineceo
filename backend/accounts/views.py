@@ -147,7 +147,7 @@ class UserListAdminOrOprator(ListAPIView):
 class UserProfile(APIView):
     def get(self, request):
         user = request.user
-        serializer = serializers.UserSerializer(user)
+        serializer = serializers.UserSerializer(user, context={'request': request})
         return Response(serializer.data, status=200)
     
     def put(self, request):
