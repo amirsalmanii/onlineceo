@@ -9,4 +9,5 @@ urlpatterns = [
     path('refunds/<int:pk>/', views.RefundOrderRequestDetailView.as_view(), name='refund_detail'),
     path('refunds/u/<int:pk>/', views.RefundOrderRequestUpdateView.as_view(), name='refund_update'),
     path('profile/orders/', views.UserOrders.as_view(), name='profile_orders'),
+    path('refund/c/', views.RefundRequestCreate.as_view(), name='refund_create'),
 ]
