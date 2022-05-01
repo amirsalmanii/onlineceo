@@ -56,6 +56,15 @@ class RefundOrderRequestUpdateView(UpdateAPIView):
     serializer_class = serializers.OrderRefundUpdateSerializer
 
 
+class RefundRequestCreate(APIView):
+    def post(self, request):
+        serializer = serializers.OrderRefundUpdateSerializer2(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response(status=200)
+        return Response(serializer.errors, status=400)
+
+
 class UserOrders(ListAPIView):
     serializer_class = serializers.OrderSerializerM1
     def get_queryset(self):
