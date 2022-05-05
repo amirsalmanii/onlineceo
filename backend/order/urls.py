@@ -3,7 +3,8 @@ from . import views
 
 urlpatterns = [
     path('orders/', views.ListOrdersView.as_view(), name='orders_list'),
-    path('order/create/', views.CreateOrdersView.as_view(), name='orders_create'),
+    path('order/create/', views.CreateOrderView.as_view(), name='orders_create'),
+    path('orders/item/create/', views.OrderItemsCreateView.as_view(), name='orders_items'),
     path('order/<str:order_id>/', views.RestriveOrdersView.as_view(), name='orders_create'),
     path('refunds/', views.RefundsOrdersRequestView.as_view(), name='refund_list'),
     path('refunds/<int:pk>/', views.RefundOrderRequestDetailView.as_view(), name='refund_detail'),
