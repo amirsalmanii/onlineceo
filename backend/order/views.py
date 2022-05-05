@@ -15,9 +15,23 @@ class ListOrdersView(ListAPIView):
     search_fields = ['order_id', 'owner__first_name', 'owner__last_name', 'owner__username']
 
 
-class CreateOrdersView(CreateAPIView):
-    queryset = Order.objects.all()
-    serializer_class = serializers.OrderSerializerM2
+class CreateOrderView(APIView):
+    def post(self, request):
+        serializer = serializers.OrderSerializerM3(data=request.data)
+        if serializer.is_valid():
+            serializer.save(owner=request.user)
+            return Response(serializer.data['order_id'], status=200)
+        return Response(serializer.errors, status=400)
+
+
+class OrderItemsCreateView(APIView):
+    def post(self, request):
+        serializer = serializers.OrdersItemCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        else:
+            return Response(serializer.errors, status=400)
 
 
 class RestriveOrdersView(APIView):
