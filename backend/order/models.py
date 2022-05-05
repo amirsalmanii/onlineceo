@@ -92,14 +92,3 @@ def set_refund(sender, instance, *args, **kwargs):
         pass
 
 
-# siginal for order to create orderItems
-@receiver(m2m_changed, sender=Order.products.through)
-def create_order_item(sender, instance, action, *args, **kwargs):
-    if 'post' in action:
-        products = instance.products.all()
-        for product in products:
-            if product.price_after_discount > 0:
-                amount = product.price_after_discount
-            else:
-                amount = product.price
-            OrderItems.objects.create(product=product, product_price=amount, order_id=instance.order_id)
