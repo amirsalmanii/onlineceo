@@ -164,3 +164,14 @@ class ShowUserWallet(APIView):
         user = request.user
         user_wallet = user.wallet
         return Response(user_wallet, status=200)
+
+
+class ShowUserData(APIView):
+    def get(self, request):
+
+        user = request.user
+        if user.is_anonymous:
+            return Response(status=404)
+        else:
+            serializer = serializers.UserSerializer(user, context={'request': request})
+            return Response(serializer.data, status=200)
