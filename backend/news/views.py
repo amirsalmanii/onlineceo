@@ -32,3 +32,10 @@ class DetailDeleteView(RetrieveDestroyAPIView):
     """
     queryset = News.objects.all()
     serializer_class = NewsSerializer
+
+
+class LastThreeNews(ListAPIView):
+    serializer_class = NewsSerializer2
+    def get_queryset(self):
+        queryset = News.objects.all()[:3]
+        return queryset
