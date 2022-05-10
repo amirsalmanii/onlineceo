@@ -15,6 +15,11 @@ class ListNewsView(ListAPIView):
     search_fields = ['title', 'author__first_name', 'body']
 
 
+class ListNews2View(ListAPIView):
+    queryset = News.objects.all()
+    serializer_class = NewsSerializer
+
+
 class CreateNewsView(CreateAPIView):
     queryset = News.objects.all()
     serializer_class = NewsSerializer2
