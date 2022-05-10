@@ -9,3 +9,6 @@ class News(models.Model):
     title_video = models.FileField(upload_to='news/', null=True, blank=True)
     body = models.TextField()
     created_at = models.DateField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-id']
