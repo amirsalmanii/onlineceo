@@ -30,13 +30,15 @@ INSTALLED_APPS = [
     'order',
     'accounting',
     'news',
+    'payments',
     # third party
     'rest_framework',
     'rest_framework.authtoken',
     'django_cleanup.apps.CleanupConfig',
     'django_crontab',
     'corsheaders',
-    "debug_toolbar",
+    'debug_toolbar',
+    'azbankgateways',
 ]
 
 MIDDLEWARE = [
@@ -157,3 +159,22 @@ INTERNAL_IPS = [
     "127.0.0.1",
     # ...
 ]
+
+#gateway config
+
+AZ_IRANIAN_BANK_GATEWAYS = {
+    'GATEWAYS': {
+        'ZARINPAL': {
+            'MERCHANT_CODE': secret.m_id_zarinpal,
+        },
+    },
+    'IS_SAMPLE_FORM_ENABLE': True,
+    'DEFAULT': 'BMI',
+    'CURRENCY': 'IRR', 
+    'TRACKING_CODE_QUERY_PARAM': 'tc', 
+    'TRACKING_CODE_LENGTH': 16, 
+    'SETTING_VALUE_READER_CLASS': 'azbankgateways.readers.DefaultReader', 
+    'BANK_PRIORITIES': [
+        'ZARINPAL'
+    ],
+}
