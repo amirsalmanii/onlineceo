@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'accounting',
     'news',
     'payments',
+    'projects',
     # third party
     'rest_framework',
     'rest_framework.authtoken',
