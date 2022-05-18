@@ -19,7 +19,7 @@ from otp.models import UserOtp, UserEmailOtp
 
 
 class MyPagination(PageNumberPagination):
-    page_size = 2
+    page_size = 20
 
 
 class UserVerifyOtp(APIView):
