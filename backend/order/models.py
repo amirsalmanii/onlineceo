@@ -75,6 +75,9 @@ class RefundOrdersRequest(models.Model):
     created_at = models.DateField(auto_now_add=True)
     Confirmation = models.BooleanField(default=False)
 
+    class Meta:
+        ordering = ('-id',)
+
 
 @receiver(post_save, sender=RefundOrdersRequest)
 def set_refund(sender, instance, *args, **kwargs):
