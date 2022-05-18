@@ -32,6 +32,7 @@ class ProductsSerializerm1(serializers.ModelSerializer):
         'image',
         'image2',
         'image3',
+        'product_video',
         'thumbnail',
         'body',
         'pdf_file',

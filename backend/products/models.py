@@ -26,7 +26,7 @@ class Product(models.Model):
     image = models.ImageField(upload_to=path_and_rename, blank=True, null=True)
     image2 = models.ImageField(upload_to=path_and_rename, blank=True, null=True)
     image3 = models.ImageField(upload_to=path_and_rename, blank=True, null=True)
-    # Todo save video for products
+    product_video = models.FileField(upload_to='videos/', null=True, blank=True)
     thumbnail = models.ImageField(upload_to=path_and_rename, blank=True, null=True)
     pdf_file = models.FileField(upload_to='pdfs/', null=True, blank=True)
     body = models.TextField(null=True, blank=True)
