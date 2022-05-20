@@ -40,19 +40,19 @@ class VerifyFromGateWay(APIView):
     def get(self, request):
         tracking_code = request.GET.get(settings.TRACKING_CODE_QUERY_PARAM, None)
         if not tracking_code:
-            return redirect(f'http://45.159.113.83:3010/payments/failed?tc={tracking_code}')
+            return redirect(f'http://45.159.113.83:3000/payments/failed?tc={tracking_code}')
 
         try:
             bank_record = bank_models.Bank.objects.get(tracking_code=tracking_code)
         except bank_models.Bank.DoesNotExist:
-            return redirect(f'http://45.159.113.83:3010/payments/failed?tc={tracking_code}')
+            return redirect(f'http://45.159.113.83:3000/payments/failed?tc={tracking_code}')
 
         if bank_record.is_success:
-            return redirect(f'http://45.159.113.83:3010/payments/successful?tc={tracking_code}')
+            return redirect(f'http://45.159.113.83:3000/payments/successful?tc={tracking_code}')
         
 
         # وقتی در راه اشتباهی میشه و پول گم بشه در چهل و هشت ساعت برمیگرده یا انصراف زدن
-        return redirect(f'http://45.159.113.83:3010/payments/failed?tc={tracking_code}')
+        return redirect(f'http://45.159.113.83:3000/payments/failed?tc={tracking_code}')
 
 
 class VerifyToSendCart(APIView):
@@ -123,53 +123,6 @@ class VerifyFromGateWayWallet(APIView):
             user.save()
             return redirect(f'http://45.159.113.83:3010/payments/walletSuccessful?tc={tracking_code}')
 
-
-        # وقتی در راه اشتباهی میشه و پول گم بشه در چهل و هشت ساعت برمیگرده یا انصراف زدن
-        return redirect(f'http://45.159.113.83:3010/payments/failed?tc={tracking_code}')
-
-
-# pay visiting
-class GoToGateWayVisiting(APIView):
-    def post(self, request):
-        serializer = serializers.TotalPriceSerializer(data=request.data)
-        if serializer.is_valid():
-            amount = serializer.validated_data['total_price']
-            user_mobile_number = request.user
-        else:
-            return Response(serializer.errors, status=400)
-        factory = bankfactories.BankFactory()
-        try:
-            bank = factory.auto_create() # or factory.create(bank_models.BankType.BMI) or set identifier
-            bank.set_request(request)
-            bank.set_amount(amount)
-
-            bank.set_client_callback_url(reverse('call_back_gt_visiting'))
-            bank.set_mobile_number(user_mobile_number)
-
-
-            bank_record = bank.ready()
-
-            return bank.redirect_gateway()
-        except AZBankGatewaysException as e:
-            logging.critical(e)
-            # TODO: redirect to failed page.
-            raise e
-
-
-class VerifyFromGateWayVisiting(APIView):
-    def get(self, request):
-        tracking_code = request.GET.get(settings.TRACKING_CODE_QUERY_PARAM, None)
-        if not tracking_code:
-            return redirect(f'http://45.159.113.83:3010/payments/failed?tc={tracking_code}')
-
-        try:
-            bank_record = bank_models.Bank.objects.get(tracking_code=tracking_code)
-        except bank_models.Bank.DoesNotExist:
-            return redirect(f'http://45.159.113.83:3010/payments/failed?tc={tracking_code}')
-
-        if bank_record.is_success:
-            return redirect(f'https://wa.me/989143451926')
-        
 
         # وقتی در راه اشتباهی میشه و پول گم بشه در چهل و هشت ساعت برمیگرده یا انصراف زدن
         return redirect(f'http://45.159.113.83:3010/payments/failed?tc={tracking_code}')
