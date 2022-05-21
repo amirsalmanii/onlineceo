@@ -111,21 +111,21 @@ class VerifyFromGateWayWallet(APIView):
             pass
         tracking_code = request.GET.get(settings.TRACKING_CODE_QUERY_PARAM, None)
         if not tracking_code:
-            return redirect(f'http://45.159.113.83:3010/payments/failed?tc={tracking_code}')
+            return redirect(f'http://45.159.113.83:3000/payments/failed?tc={tracking_code}')
 
         try:
             bank_record = bank_models.Bank.objects.get(tracking_code=tracking_code)
         except bank_models.Bank.DoesNotExist:
-            return redirect(f'http://45.159.113.83:3010/payments/failed?tc={tracking_code}')
+            return redirect(f'http://45.159.113.83:3000/payments/failed?tc={tracking_code}')
 
         if bank_record.is_success:
             user.wallet += amount
             user.save()
-            return redirect(f'http://45.159.113.83:3010/payments/walletSuccessful?tc={tracking_code}')
+            return redirect(f'http://45.159.113.83:3000/payments/walletSuccessful?tc={tracking_code}')
 
 
         # وقتی در راه اشتباهی میشه و پول گم بشه در چهل و هشت ساعت برمیگرده یا انصراف زدن
-        return redirect(f'http://45.159.113.83:3010/payments/failed?tc={tracking_code}')
+        return redirect(f'http://45.159.113.83:3000/payments/failed?tc={tracking_code}')
 
 
 class BuyingWithWallet(APIView):
@@ -135,11 +135,11 @@ class BuyingWithWallet(APIView):
 
 class UpdateUserWalletAfterBuying(APIView):
     def post(self, request):
-        serializer = serializers.TotaPriiceSerializer(data=request.data)
+        serializer = serializers.TotalPriceSerializer(data=request.data)
         if serializer.is_valid():
             user = request.user
             amount = serializer.validated_data['total_price']
-            user.wallet -= amount
+            user.wallet = amount
             user.save()
             return Response(status=200)
         return Response(serializer.errors, status=400)
