@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django_cleanup.apps.CleanupConfig',
     'django_crontab',
     'corsheaders',
-    'debug_toolbar',
+    #'debug_toolbar', for dev mod
     'azbankgateways',
 ]
 
@@ -155,11 +155,11 @@ CRONJOBS = [
     ('1 0 * * *', 'discount.cron.my_scheduled_job')
 ]
 
-INTERNAL_IPS = [
-    # ...
-    "127.0.0.1",
-    # ...
-]
+# INTERNAL_IPS = [
+#     # ...
+#     "127.0.0.1",   # for dev mood
+#     # ...
+# ]
 
 #gateway config
 
