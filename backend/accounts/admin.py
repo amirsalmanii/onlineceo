@@ -10,6 +10,7 @@ class UserAdmin(BaseUserAdmin):
     form_add = UserCreationForm
     list_display = (
         "username",
+        "email",
         "first_name",
         "last_name",
         "is_admin",
