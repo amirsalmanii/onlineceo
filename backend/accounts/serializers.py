@@ -89,6 +89,11 @@ class OtpEmailConfirmSerializer(serializers.Serializer):
             raise serializers.ValidationError('کلیدی نیست') 
 
 
+class UserRegisterSerilizer(serializers.Serializer):
+    phone_number = serializers.CharField(max_length=11, allow_null=True, allow_blank=True)
+    email = serializers.EmailField(max_length=200, allow_null=True, allow_blank=True)
+
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.User

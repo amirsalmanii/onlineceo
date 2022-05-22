@@ -1,3 +1,4 @@
+import random
 from django.core.mail import send_mail
 from django.conf import settings
 from django.db.models import Q
@@ -115,6 +116,35 @@ class UserConfirmOtpEmail(APIView):
             return Response({"token": token.key, 'admin': admin}, status=200)
         else:
             return Response(serializer.errors, status=404)
+
+
+class UserRegisterView(APIView):
+    def post(self, request):
+        print(request.data)
+        serializer = serializers.UserRegisterSerilizer(data=request.data)
+        if serializer.is_valid():
+            data = serializer.validated_data
+            username = data.get('phone_number')
+            email = data.get('email')
+            if username:
+                usr = User.objects.filter(username = username)
+                if not usr:
+                    user = User(username=username)
+                    user.save()
+                else:
+                    return Response('کاربر قبلا ثبت شده است', status=404)
+            elif email:
+                user_e = User.objects.filter(email = email)
+                if not user_e:
+                    user_name=random.randint(1, 11000000)
+                    user = User(username=user_name, email=email)
+                    user.save()
+                else:
+                    return Response('کاربر قبلا ثبت شده است', status=404)
+            token = Token.objects.create(user=user)
+            return Response({"token": token.key}, status=200)
+        else:
+            return Response(serializer.errors, status=401)
 
 
 class UserListAndCreateView(ListCreateAPIView):
