@@ -3,7 +3,8 @@ from rest_framework.views import  APIView
 from rest_framework.response import Response
 from rest_framework import filters
 from rest_framework.generics import (
-    ListAPIView
+    ListAPIView,
+    CreateAPIView,
 )
 from . import (
     models,
@@ -76,4 +77,14 @@ class DetailDeleteUpdateCategory(APIView):
             serializer.save()
             return Response(status=200)
         return Response(serializer.errors, status=400)
+
+
+class CreateCategories(CreateAPIView):
+    queryset = models.Category.objects.all()
+    serializer_class = serializers.CategoriesUpdateSerializer
+
+
+class ListFatherCategories(ListAPIView):
+    queryset = models.Category.objects.filter(parent__isnull=True)
+    serializer_class = serializers.CategoriesUpdateSerializer
 

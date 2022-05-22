@@ -7,4 +7,6 @@ urlpatterns = [
     path('categories-m2-wp/', views.ListCategories2WithoutPagination.as_view(), name='list_category2-without-pagination'),
     path('categories-m3/', views.ListCategories3.as_view(), name='list_category3'),
     path('categories/<int:pk>/', views.DetailDeleteUpdateCategory.as_view(), name='rud_category'),
+    path('create/category/', views.CreateCategories.as_view(), name='create_cat'),
+    path('categories-m4/', views.ListFatherCategories.as_view(), name='create_cat'),
 ]
