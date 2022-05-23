@@ -63,7 +63,7 @@ class UserConfirmOtp(APIView):
         if serializer.is_valid():
             data = serializer.validated_data
             user = User.objects.get(username=data['phone_number'])
-            if user.is_admin:
+            if user.is_admin or user.is_operator:
                 admin=True
             else:
                 admin=False
@@ -103,7 +103,7 @@ class UserConfirmOtpEmail(APIView):
         if serializer.is_valid():
             data = serializer.validated_data
             user = User.objects.get(email=data['email'])
-            if user.is_admin:
+            if user.is_admin or user.is_operator:
                 admin=True
             else:
                 admin=False
