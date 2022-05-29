@@ -97,7 +97,7 @@ class UserRegisterSerilizer(serializers.Serializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.User
-        exclude = ('password', 'last_login')
+        exclude = ('password', 'last_login', 'is_active')
 
 
 class UserSerializer2(serializers.ModelSerializer):
